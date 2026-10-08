@@ -68,8 +68,8 @@ Mas no banco, há um gap de 50 anos. Logo, a resposta seria 1976 com o mesmo com
 2.5 Quais categorias existiam na primeira cerimônia (1928) e não existem mais hoje?
 r: aqui, pegamos as categorias "exclusivas " de cada ano (distinct) e as comparamos com as de 1928 como referência. 
 
-const categorias1928 = db.OSCAR.distinct("categoria", { ano_cerimonia: 1928 });
-const categorias2026 = db.OSCAR.distinct("categoria", { ano_cerimonia: 2026 });
+const categorias1928 = db.registros.distinct("categoria", { ano_cerimonia: 1928 });
+const categorias2026 = db.registros.distinct("categoria", { ano_cerimonia: 2026 });
  
 categorias1928.filter(categoria => !categorias2026.includes(categoria));
 
@@ -78,20 +78,19 @@ r> usando:  o cod retornará as "categorias" sem repetição, o regex atua como 
 db.OSCAR.distinct("categoria", {
   categoria: { $regex: "DIRECTING", $options: "i" }
 });
-
+////////////////////////////////////////////////////////////////////////
 Nível 3: Atores e Atrizes Famosos
-
 Natalie Portman
 3.1 Quantas vezes Natalie Portman foi indicada ao Oscar?
 usando : 
-db.OSCAR.countDocuments({
+db.registros.countDocuments({
   nome_do_indicado: "Natalie Portman"
 })
 
 obtemos resultado = 3 
 
 3.2 Quantos Oscars Natalie Portman ganhou?
-db.OSCAR.find({
+db.registros.find({
   nome_do_indicado: "Natalie Portman",
   vencedor: 1
 }).toArray().length
@@ -99,7 +98,7 @@ usando lenght e vencedor = 1 , a resposta é :
 1
 
 3.3 Em quais anos e por quais filmes Natalie Portman foi indicada?
-usando: db.OSCAR.find(
+usando: db.registros.find(
   { nome_do_indicado: "Natalie Portman" }
 ).pretty()
 
@@ -140,25 +139,85 @@ usando o mesmo código , temos :
   nome_do_filme: 'Jackie',
   vencedor: 0
 }
-
+///////////////////////////////////////////////////////////
 Viola Davis
 3.5 Quantas vezes Viola Davis foi indicada ao Oscar?
+usando :
+db.registros.countDocuments({
+  nome_do_indicado: "Viola Davis"
+})
+r: 4 
 
 3.6 Quantos Oscars Viola Davis ganhou?
+db.registros.find({
+  nome_do_indicado: "Viola Davis",
+  vencedor: 1
+}).toArray().length
+r: 1
 
 3.7 Por quais filmes Viola Davis foi indicada?
+db.registros.find(
+  { nome_do_indicado: "Viola Davis" },
+  { _id: 0, nome_do_filme: 1 }
+)
 
+r: 4 , sendo :
+nome_do_filme: 'Doubt'
+ nome_do_filme: 'The Help'
+ nome_do_filme: 'Fences'
+  nome_do_filme: "Ma Rainey's Black Bottom"
+
+///////////////////////////////////////////
 Amy Adams
 3.8 Amy Adams já ganhou algum Oscar?
+db.registros.countDocuments({
+  nome_do_indicado: "Natalie Portman",
+  vencedor: 1
+}) > 0
+r: false
 
 3.9 Quantas vezes Amy Adams foi indicada sem ganhar?
-
+db.registros.countDocuments({
+  nome_do_indicado: "Amy Adams"
+})
+r: 6 
+/////////////////////////////////////////////////
 Denzel Washington
 3.10 Denzel Washington já ganhou algum Oscar?
+db.registros.countDocuments({
+  nome_do_indicado: "Denzel Washington",
+  vencedor: 1
+}) > 0
+r: true
 
 3.11 Quantas vezes Denzel Washington foi indicado ao Oscar?
+db.registros.countDocuments({
+  nome_do_indicado: "Denzel Washington"
+})
+r: 9
 
 3.12 Liste todos os Oscars que Denzel Washington ganhou (ano, categoria, filme).
+usando :
+db.registros.find(
+  {
+    nome_do_indicado: "Denzel Washington"
+  },
+  {
+    _id: 0,
+    ano_cerimonia: 1,
+    categoria: 1,
+    nome_do_filme: 1,
+    vencedor: 1
+  }
+).sort({ ano_cerimonia: 1 })
 
+r:  ano_cerimonia: 1990,
+  categoria: 'ACTOR IN A SUPPORTING ROLE',
+  nome_do_filme: 'Glory',
+  vencedor: 1
 
-
+  ano_cerimonia: 2002,
+  categoria: 'ACTOR IN A LEADING ROLE',
+  nome_do_filme: 'Training Day',
+  vencedor: 1
+////////////////////////////////////////////////////////////
