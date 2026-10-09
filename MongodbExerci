@@ -257,4 +257,336 @@ db.Indicados.countDocuments({
 r:   total_vencedores: 2510
 
 4.4 Liste todos os filmes que ganharam o Oscar de Melhor Filme (categoria "OUTSTANDING PICTURE" ou "BEST PICTURE").
-
+ 
+db.Indicados.find(
+  {
+    categoria: { $in: ["OUTSTANDING PICTURE", "BEST PICTURE"] },
+    vencedor: 1
+  },
+  {
+    _id: 0,
+    nome_do_filme: 1,
+    nome_do_indicado: 1,
+    ano_cerimonia: 1
+  }
+)
+{
+  ano_cerimonia: 1928,
+  nome_do_indicado: 'Paramount Famous Lasky',
+  nome_do_filme: 'Wings'
+}
+{
+  ano_cerimonia: 1929,
+  nome_do_indicado: 'Metro-Goldwyn-Mayer',
+  nome_do_filme: 'The Broadway Melody'
+}
+{
+  ano_cerimonia: 1963,
+  nome_do_indicado: 'Sam Spiegel, Producer',
+  nome_do_filme: 'Lawrence of Arabia'
+}
+{
+  ano_cerimonia: 1964,
+  nome_do_indicado: 'Tony Richardson, Producer',
+  nome_do_filme: 'Tom Jones'
+}
+{
+  ano_cerimonia: 1966,
+  nome_do_indicado: 'Robert Wise, Producer',
+  nome_do_filme: 'The Sound of Music'
+}
+{
+  ano_cerimonia: 1965,
+  nome_do_indicado: 'Jack L. Warner, Producer',
+  nome_do_filme: 'My Fair Lady'
+}
+{
+  ano_cerimonia: 1967,
+  nome_do_indicado: 'Fred Zinnemann, Producer',
+  nome_do_filme: 'A Man for All Seasons'
+}
+{
+  ano_cerimonia: 1972,
+  nome_do_indicado: "Philip D'Antoni, Producer",
+  nome_do_filme: 'The French Connection'
+}
+{
+  ano_cerimonia: 1968,
+  nome_do_indicado: 'Walter Mirisch, Producer',
+  nome_do_filme: 'In the Heat of the Night'
+}
+{
+  ano_cerimonia: 1969,
+  nome_do_indicado: 'John Woolf, Producer',
+  nome_do_filme: 'Oliver!'
+}
+{
+  ano_cerimonia: 1970,
+  nome_do_indicado: 'Jerome Hellman, Producer',
+  nome_do_filme: 'Midnight Cowboy'
+}
+{
+  ano_cerimonia: 1971,
+  nome_do_indicado: 'Frank McCarthy, Producer',
+  nome_do_filme: 'Patton'
+}
+{
+  ano_cerimonia: 1973,
+  nome_do_indicado: 'Albert S. Ruddy, Producer',
+  nome_do_filme: 'The Godfather'
+}
+{
+  ano_cerimonia: 1975,
+  nome_do_indicado: 'Francis Ford Coppola, Producer;  Gray Frederickson and Fred Roos, Co-Producers',
+  nome_do_filme: 'The Godfather Part II'
+}
+{
+  ano_cerimonia: 1976,
+  nome_do_indicado: 'Saul Zaentz and Michael Douglas, Producers',
+  nome_do_filme: "One Flew over the Cuckoo's Nest"
+}
+{
+  ano_cerimonia: 1974,
+  nome_do_indicado: 'Tony Bill, Michael Phillips and Julia Phillips, Producers',
+  nome_do_filme: 'The Sting'
+}
+{
+  ano_cerimonia: 1977,
+  nome_do_indicado: 'Irwin Winkler and Robert Chartoff, Producers',
+  nome_do_filme: 'Rocky'
+}
+{
+  ano_cerimonia: 1978,
+  nome_do_indicado: 'Charles H. Joffe, Producer',
+  nome_do_filme: 'Annie Hall'
+}
+{
+  ano_cerimonia: 1979,
+  nome_do_indicado: 'Barry Spikings, Michael Deeley, Michael Cimino and John Peverall, Producers',
+  nome_do_filme: 'The Deer Hunter'
+}
+{
+  ano_cerimonia: 1980,
+  nome_do_indicado: 'Stanley R. Jaffe, Producer',
+  nome_do_filme: 'Kramer vs. Kramer'
+}
+{
+  ano_cerimonia: 1981,
+  nome_do_indicado: 'Ronald L. Schwary, Producer',
+  nome_do_filme: 'Ordinary People'
+}
+{
+  ano_cerimonia: 1982,
+  nome_do_indicado: 'David Puttnam, Producer',
+  nome_do_filme: 'Chariots of Fire'
+}
+{
+  ano_cerimonia: 1983,
+  nome_do_indicado: 'Richard Attenborough, Producer',
+  nome_do_filme: 'Gandhi'
+}
+{
+  ano_cerimonia: 1985,
+  nome_do_indicado: 'Saul Zaentz, Producer',
+  nome_do_filme: 'Amadeus'
+}
+{
+  ano_cerimonia: 1984,
+  nome_do_indicado: 'James L. Brooks, Producer',
+  nome_do_filme: 'Terms of Endearment'
+}
+{
+  ano_cerimonia: 1986,
+  nome_do_indicado: 'Sydney Pollack, Producer',
+  nome_do_filme: 'Out of Africa'
+}
+{
+  ano_cerimonia: 1989,
+  nome_do_indicado: 'Mark Johnson, Producer',
+  nome_do_filme: 'Rain Man'
+}
+{
+  ano_cerimonia: 1990,
+  nome_do_indicado: 'Richard D. Zanuck and Lili Fini Zanuck, Producers',
+  nome_do_filme: 'Driving Miss Daisy'
+}
+{
+  ano_cerimonia: 1987,
+  nome_do_indicado: 'Arnold Kopelson, Producer',
+  nome_do_filme: 'Platoon'
+}
+{
+  ano_cerimonia: 1988,
+  nome_do_indicado: 'Jeremy Thomas, Producer',
+  nome_do_filme: 'The Last Emperor'
+}
+{
+  ano_cerimonia: 1991,
+  nome_do_indicado: 'Jim Wilson and Kevin Costner, Producers',
+  nome_do_filme: 'Dances With Wolves'
+}
+{
+  ano_cerimonia: 1993,
+  nome_do_indicado: 'Clint Eastwood, Producer',
+  nome_do_filme: 'Unforgiven'
+}
+{
+  ano_cerimonia: 1994,
+  nome_do_indicado: 'Steven Spielberg, Gerald R. Molen and Branko Lustig, Producers',
+  nome_do_filme: "Schindler's List"
+}
+{
+  ano_cerimonia: 1992,
+  nome_do_indicado: 'Edward Saxon, Kenneth Utt and Ron Bozman, Producers',
+  nome_do_filme: 'The Silence of the Lambs'
+}
+{
+  ano_cerimonia: 1995,
+  nome_do_indicado: 'Wendy Finerman, Steve Tisch and Steve Starkey, Producers',
+  nome_do_filme: 'Forrest Gump'
+}
+{
+  ano_cerimonia: 1997,
+  nome_do_indicado: 'Saul Zaentz, Producer',
+  nome_do_filme: 'The English Patient'
+}
+{
+  ano_cerimonia: 1998,
+  nome_do_indicado: 'James Cameron and Jon Landau, Producers',
+  nome_do_filme: 'Titanic'
+}
+{
+  ano_cerimonia: 1996,
+  nome_do_indicado: 'Mel Gibson, Alan Ladd, Jr. and Bruce Davey, Producers',
+  nome_do_filme: 'Braveheart'
+}
+{
+  ano_cerimonia: 1999,
+  nome_do_indicado: 'David Parfitt, Donna Gigliotti, Harvey Weinstein, Edward Zwick and Marc Norman, Producers',
+  nome_do_filme: 'Shakespeare in Love'
+}
+{
+  ano_cerimonia: 2000,
+  nome_do_indicado: 'Bruce Cohen and Dan Jinks, Producers',
+  nome_do_filme: 'American Beauty'
+}
+{
+  ano_cerimonia: 2001,
+  nome_do_indicado: 'Douglas Wick, David Franzoni and Branko Lustig, Producers',
+  nome_do_filme: 'Gladiator'
+}
+{
+  ano_cerimonia: 2002,
+  nome_do_indicado: 'Brian Grazer and Ron Howard, Producers',
+  nome_do_filme: 'A Beautiful Mind'
+}
+{
+  ano_cerimonia: 2003,
+  nome_do_indicado: 'Martin Richards, Producer',
+  nome_do_filme: 'Chicago'
+}
+{
+  ano_cerimonia: 2004,
+  nome_do_indicado: 'Barrie M. Osborne, Peter Jackson and Fran Walsh, Producers',
+  nome_do_filme: 'The Lord of the Rings: The Return of the King'
+}
+{
+  ano_cerimonia: 2006,
+  nome_do_indicado: 'Paul Haggis and Cathy Schulman, Producers',
+  nome_do_filme: 'Crash'
+}
+{
+  ano_cerimonia: 2008,
+  nome_do_indicado: 'Scott Rudin, Ethan Coen and Joel Coen, Producers',
+  nome_do_filme: 'No Country for Old Men'
+}
+{
+  ano_cerimonia: 2009,
+  nome_do_indicado: 'Christian Colson, Producer',
+  nome_do_filme: 'Slumdog Millionaire'
+}
+{
+  ano_cerimonia: 2007,
+  nome_do_indicado: 'Graham King, Producer',
+  nome_do_filme: 'The Departed'
+}
+{
+  ano_cerimonia: 2005,
+  nome_do_indicado: 'Clint Eastwood, Albert S. Ruddy and Tom Rosenberg, Producers',
+  nome_do_filme: 'Million Dollar Baby'
+}
+{
+  ano_cerimonia: 2013,
+  nome_do_indicado: 'Grant Heslov, Ben Affleck and George Clooney, Producers',
+  nome_do_filme: 'Argo'
+}
+{
+  ano_cerimonia: 2010,
+  nome_do_indicado: 'Kathryn Bigelow, Mark Boal, Nicolas Chartier and Greg Shapiro, Producers',
+  nome_do_filme: 'The Hurt Locker'
+}
+{
+  ano_cerimonia: 2011,
+  nome_do_indicado: 'Iain Canning, Emile Sherman and Gareth Unwin, Producers',
+  nome_do_filme: "The King's Speech"
+}
+{
+  ano_cerimonia: 2012,
+  nome_do_indicado: 'Thomas Langmann, Producer',
+  nome_do_filme: 'The Artist'
+}
+{
+  ano_cerimonia: 2014,
+  nome_do_indicado: 'Brad Pitt, Dede Gardner, Jeremy Kleiner, Steve McQueen and Anthony Katagas, Producers',
+  nome_do_filme: '12 Years a Slave'
+}
+{
+  ano_cerimonia: 2015,
+  nome_do_indicado: 'Alejandro G. Iñárritu, John Lesher and James W. Skotchdopole, Producers',
+  nome_do_filme: 'Birdman or (The Unexpected Virtue of Ignorance)'
+}
+{
+  ano_cerimonia: 2016,
+  nome_do_indicado: 'Michael Sugar, Steve Golin, Nicole Rocklin and Blye Pagon Faust, Producers',
+  nome_do_filme: 'Spotlight'
+}
+{
+  ano_cerimonia: 2017,
+  nome_do_indicado: 'Adele Romanski, Dede Gardner and Jeremy Kleiner, Producers',
+  nome_do_filme: 'Moonlight'
+}
+{
+  ano_cerimonia: 2019,
+  nome_do_indicado: 'Jim Burke, Charles B. Wessler, Brian Currie, Peter Farrelly and Nick Vallelonga, Producers',
+  nome_do_filme: 'Green Book'
+}
+{
+  ano_cerimonia: 2018,
+  nome_do_indicado: 'Guillermo del Toro and J. Miles Dale, Producers',
+  nome_do_filme: 'The Shape of Water'
+}
+{
+  ano_cerimonia: 2020,
+  nome_do_indicado: 'Kwak Sin Ae and Bong Joon Ho, Producers',
+  nome_do_filme: 'Parasite'
+}
+{
+  ano_cerimonia: 2021,
+  nome_do_indicado: 'Frances McDormand, Peter Spears, Mollye Asher, Dan Janvey and Chloé Zhao, Producers',
+  nome_do_filme: 'Nomadland'
+}
+{
+  ano_cerimonia: 2023,
+  nome_do_indicado: 'Daniel Kwan, Daniel Scheinert and Jonathan Wang, Producers',
+  nome_do_filme: 'Everything Everywhere All at Once'
+}
+{
+  ano_cerimonia: 2024,
+  nome_do_indicado: 'Emma Thomas, Charles Roven and Christopher Nolan, Producers',
+  nome_do_filme: 'Oppenheimer'
+}
+{
+  ano_cerimonia: 2022,
+  nome_do_indicado: 'Philippe Rousselet, Fabrice Gianfermi and Patrick Wachsberger, Producers',
+  nome_do_filme: 'CODA'
+}
