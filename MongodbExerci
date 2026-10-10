@@ -590,3 +590,161 @@ db.Indicados.find(
   nome_do_indicado: 'Philippe Rousselet, Fabrice Gianfermi and Patrick Wachsberger, Producers',
   nome_do_filme: 'CODA'
 }
+4.5 Quantos filmes diferentes já ganharam o Oscar?
+db.registros.distinct("nome_do_filme", { vencedor: 1 }).length
+r: 1355
+
+/////////////////////////////////////////////////////////////////////////////////
+
+Nível 5: Análise de Indicações
+5.1 Quais atores/atrizes foram indicados mais de uma vez? Liste o nome e o número de indicações.
+usando: 
+db.registros.aggregate([
+  { $match: { categoria: /ACTOR|ACTRESS/i } },
+  {
+    $group: {
+      _id: "$nome_do_indicado",
+      total_indicacoes: { $sum: 1 }
+    }
+  },
+  { $match: { total_indicacoes: { $gt: 1 } } },
+  { $sort: { total_indicacoes: -1 } }
+])
+(resposta com o comando)
+
+5.2 Qual ator ou atriz tem o maior número de indicações na história do Oscar?
+r: olhando o resultado anterior: Meryl Streep foi a atriz mais indicada. 
+
+5.3 Quais atores foram indicados mais de 3 vezes, mas nunca ganharam?
+adicionado $count , sabemos que o código abaixo precisa listar 27 resultados. 
+db.registros.aggregate([
+  {
+  
+    $match: {
+      categoria: { $regex: "ACTOR|ACTRESS", $options: "i" }
+    }
+  },
+  {
+    
+    $group: {
+      _id: "$nome_do_indicado",
+      totalIndicacoes: { $sum: 1 },
+      totalVitorias: {
+        $sum: { 
+          $cond: [ { $in: ["$vencedor", [true, "true", "True", "TRUE", "1", 1]] }, 1, 0 ] 
+        }
+      }
+    }
+  },
+  {
+    $match: {
+      totalIndicacoes: { $gt: 3 },
+      totalVitorias: 0
+    }
+  },
+  {
+    $sort: { totalIndicacoes: -1 }
+  }
+]);
+
+
+5.4 Encontre todos os artistas que foram indicados em categorias diferentes (ex: ator e diretor).
+usando:
+db.OSCAR.aggregate([
+  { $group: { _id: "$nome_do_indicado", categorias: { $addToSet: "$categoria" } } },
+  { $match: { $expr: { $gt: [{ $size: "$categorias" }, 1] } } }
+])
+
+5.5 Quantos indicados têm exatamente 1 indicação na história?
+usando: db.registros.aggregate([
+  { $group: { _id: "$nome_do_indicado", total: { $sum: 1 } } },
+  { $match: { total: 1 } },
+  { $count: "total_indicados" }
+])
+
+r:   total_indicados: 5734
+
+5.6 Qual o maior números de indicados em um único ano? Essa é uma pergunta franca.
+usando:
+db.OSCAR.aggregate([
+  {
+    $group: {
+      _id: "$ano_cerimonia",
+      total_indicados: { $sum: 1 }
+    }
+  },
+  {
+    $sort: { total_indicados: -1 }
+  },
+  {
+    $limit: 1
+  }
+])
+r: 1943 com 186 indicações.
+//////////////////////////////////////////////////////////////////////////
+
+Nível 6: Análise de Filmes
+TOY STORY:
+
+6.1 A série de filmes Toy Story ganhou Oscars em quais anos?
+
+db.OSCAR.find({
+  nome_do_filme: /Toy Story/i,
+  vencedor: 1
+}, {
+  _id: 0,
+  nome_do_filme: 1,
+  ano_cerimonia: 1
+}).sort({
+  ano_cerimonia: 1
+})
+r: ano_cerimonia: 2011,
+  nome_do_filme: 'Toy Story 3'
+
+6.2 Quantas indicações a franquia Toy Story recebeu no total?
+db.OSCAR.countDocuments({
+  nome_do_filme: /Toy Story/i
+})
+r: 11
+
+6.3 Em quais categorias os filmes Toy Story foram indicados?
+
+  'ANIMATED FEATURE FILM',
+  'BEST PICTURE',
+  'MUSIC (Original Musical or Comedy Score)',
+  'MUSIC (Original Song)',
+  'SOUND EDITING',
+  'WRITING (Adapted Screenplay)',
+  'WRITING (Screenplay Written Directly for the Screen)'
+
+CRASH:
+6.4 Em qual edição do Oscar o filme "Crash" concorreu?
+db.OSCAR.find({
+  nome_do_filme: "Crash"
+}, {
+  _id: 0,
+  nome_do_filme: 1,
+  ano_cerimonia: 1,
+  cerimonia: 1
+})
+
+6.5 Quantas indicações o filme "Crash" recebeu?
+
+db.registros.countDocuments({
+  nome_do_filme: "Crash"
+})
+r: 6
+
+6.6 "Crash" ganhou o Oscar de Melhor Filme?
+sim : em 2006, na categoria "BEST PICTURE"
+////////////////////////////////////////
+CENTRAL DO BRASIL:
+6.7 O filme "Central do Brasil" aparece no banco de dados?
+
+r: sim
+6.8 Se sim, quantas indicações "Central do Brasil" recebeu?
+db.registros.countDocuments({
+  nome_do_filme: { $regex: "Central do Brasil|Central Station", $options: "i" }
+});
+r: 2
+
