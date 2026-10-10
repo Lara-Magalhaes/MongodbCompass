@@ -747,4 +747,92 @@ db.registros.countDocuments({
   nome_do_filme: { $regex: "Central do Brasil|Central Station", $options: "i" }
 });
 r: 2
+/////////////////////////////////
+Nível 7: Operações de Atualização
+7.1 No campo "vencedor", altere todos os valores "true" (string) para true (booleano) e "false" (string) para false (booleano).
+usando: 
+
+db.OSCAR.updateMany(
+
+  { vencedor: "true" },
+
+  { $set: { vencedor: true } }
+
+);
+db.OSCAR.updateMany(
+
+  { vencedor: "false" },
+
+  { $set: { vencedor: false } }
+
+);
+ Apenas mudamos os tipos das variáveis, mas não atribuímos valores a eles. 
+
+7.2 Inclua no banco 3 filmes que nunca foram nomeados ao Oscar, mas que você acha que merecem. Use dados fictícios mas realistas.
+1 - Batman Begins (2005, cerimonia 2006) 
+2- Batman: O Cavaleiro das Trevas Ressurge (2012)
+3-  Diário de uma paixão (2004)
+
+7.3 Adicione uma nova categoria chamada "BEST INTERNATIONAL FEATURE FILM" com alguns vencedores recentes (2020-2024).
+inseridos, com insertMany
+
+7.4 Corrija possíveis erros de digitação nos nomes dos filmes (ex: espaços extras, caracteres especiais desnecessários).
+corrigido 
+db.registros.updateMany(
+  { nome_do_filme: { $type: "string" } },
+  // 2. Pipeline de atualização (delimitado por colchetes)
+  [
+    {
+      $set: {
+    
+        nome_do_filme: { $trim: { input: "$nome_do_filme" } }
+      }
+    },
+    {
+      $set: {
+
+        nome_do_filme: { 
+          $replaceAll: { 
+            input: "$nome_do_filme", 
+            find: "  ", 
+            replacement: " " 
+          } 
+        }
+      }
+    }
+  ]
+);
+/////////////////////
+db.registros.updateMany(
+  // 1. Filtro: Aplica a atualização apenas em documentos onde o campo seja texto
+  { nome_do_filme: { $type: "string" } },
+  
+  // 2. Pipeline de atualização (delimitado por colchetes)
+  [
+    {
+      $set: {
+        // Remove espaços acidentais no início e no fim do nome do filme
+        nome_do_filme: { $trim: { input: "$nome_do_filme" } }
+      }
+    },
+    {
+      $set: {
+        // Substitui espaços duplos no meio do texto por um único espaço
+        nome_do_filme: { 
+          $replaceAll: { 
+            input: "$nome_do_filme", 
+            find: "  ", 
+            replacement: " " 
+          } 
+        }
+      }
+    }
+  ]
+);
+
+7.5 Remova todos os registros com valor NULL no campo nome_do_filme.
+removido com : 
+db.OSCAR.deleteMany({
+  nome_do_filme: null
+});
 
